@@ -19,6 +19,7 @@ from graphql.type import GraphQLSchema, validate_schema
 from graphql.utilities import get_operation_ast
 from graphql.validation import ASTValidationRule, validate
 
+from .document_with_query import DocumentNodeWithQuery
 from .error import HttpQueryError
 from .version import version, version_info
 
@@ -295,7 +296,7 @@ def get_response(
 
         execution_result = execute(
             schema,
-            document,
+            DocumentNodeWithQuery.from_document_node(document, params.query),
             variable_values=params.variables,
             operation_name=params.operation_name,
             is_awaitable=assume_not_awaitable if run_sync else None,
